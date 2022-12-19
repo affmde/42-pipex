@@ -7,18 +7,19 @@ ft_split.c ft_strchr.c ft_strdup.c ft_striteri.c ft_strjoin.c ft_strlcat.c ft_st
 ft_strnstr.c ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c ft_strrchr.c ft_putchar.c ft_putstr.c ft_putnbr.c ft_nbr_of_digits.c \
 ft_power_of.c get_next_line.c ft_isspace.c ft_abs.c ft_min.c ft_max.c
 LOBJECTS = $(LSRCS:.c=.o)
-LODEST = $(addprefix ./libft/, $(LOBJECTS));
-
+LODEST = $(addprefix ./libft/, $(LOBJECTS))
+SRCS = handle_errors.c
+SRCSDEST = $(addprefix ./srcs/, $(SRCS))
 all: $(NAME)
 
 $(NAME): $(LIBFT) main.c
-	cc $(FLAGS) -o $(NAME) main.c -L. ./libft/$(LIBFT) 
+	cc $(FLAGS) -o $(NAME) main.c $(SRCSDEST) -L. ./libft/$(LIBFT)
 
 clean:
 	rm -f $(LODEST)
 
 fclean:
-	rm -f $(NAME) ./libft/$(LIBFT) 
+	rm -f $(NAME) ./libft/$(LIBFT)
 
 re: fclean all
 

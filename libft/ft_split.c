@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:07:57 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/16 10:30:50 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/19 11:57:24 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	**ft_split(char const *s, char c)
 {
 	char	**arr;
 	int		nbr_words;
-	
+
 	if (!s)
 		return (0);
 	nbr_words = ft_count_words((char *)s, c);
