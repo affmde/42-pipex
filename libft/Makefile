@@ -20,6 +20,7 @@ $(NAME) : $(SRCS)
 	@mv ./$(PRINTF)/libftprintf.a $(NAME)
 	@cc -c $(FLAGS) -I$(INC) $(SRCS)
 	ar -rcs $(NAME) $(OBJECTS)
+	make clean
 
 clean:
 	rm -f $(OBJECTS) $(BONUS_OBJS) ./ft_printf/*.o
