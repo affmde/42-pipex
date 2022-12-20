@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/16 19:43:46 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/20 09:54:25 by andrferr         ###   ########.fr       */
+/*   Created: 2022/12/20 10:00:05 by andrferr          #+#    #+#             */
+/*   Updated: 2022/12/20 10:13:40 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "../includes/pipex.h"
 
-# include "../libft/libft.h"
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <stdio.h>
-# include <fcntl.h>
+int	pipex(int infile, int outfile)
+{
+	int	fd[2];
+	int	pid;
 
-void	error(char *str);
-
-#endif
+	if (pipe(fd) < 0)
+	{
+		error("Something happened with pipe.");
+		return (0);
+	}
+	pid = fork();
+	if (pid < 0)
+	{
+		error("Fork failed.");
+		return (0);
+	}
+	else if (!pid)
+		handle_child();
+	else if(pid > 0)
+		handle_parent();
+}
