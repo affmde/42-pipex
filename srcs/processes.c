@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 10:00:05 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/20 11:47:46 by andrferr         ###   ########.fr       */
+/*   Created: 2022/12/20 11:21:51 by andrferr          #+#    #+#             */
+/*   Updated: 2022/12/20 11:45:49 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-int	ft_pipex(t_pipex *pipex, char **env)
+int	handle_child(t_pipex *pipex, char **env)
 {
-	if (pipe(pipex->fd) < 0)
-	{
-		error("Something happened with pipe.");
-		return (0);
-	}
-	pipex->pid = fork();
-	if (pipex->pid < 0)
-	{
-		error("Fork failed.");
-		return (0);
-	}
-	else if (!pipex->pid)
-		handle_child(pipex, env);
-	else if (pipex->pid > 0)
-		handle_parent(pipex, env);
+	ft_printf("%d\n", pipex->infile);
+	return (1);
+}
+
+int	handle_parent(t_pipex *pipex, char **env)
+{
+	ft_printf("%d\n", pipex->outfile);
 	return (1);
 }

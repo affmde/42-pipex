@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 19:20:35 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/20 09:59:55 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/20 11:47:27 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,23 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	int	fd[2];
-	int	pid1;
-	int	infile;
-	int outfile;
-	
+	t_pipex	pipex;
+
 	if (argc != 5)
 		return (0);
-	infile = open(argv[1], O_RDONLY);
-	outfile = open(argv[argc - 1], O_WRONLY);
-	pipex(infile, outfile);
-	
-	/*
-	pid1 = fork();
-	if (pid1 < 0)
+	pipex.infile = open(argv[1], O_RDONLY);
+	if (pipex.infile < 0)
 	{
-		error("Failed to fork.");
+		error("Failed to open infile.");
 		return (0);
 	}
-	if (pid1 > 0)
+	pipex.outfile = open(argv[argc - 1], O_WRONLY);
+	if (pipex.outfile < 0)
 	{
-		waitpid(pid1, NULL, 0);
-		ft_printf("parent: %d\n", pid1);
+		close(pipex.infile);
+		error("Failed to open the outfile.");
+		return (0);
 	}
-	if (pid1 == 0)
-		ft_printf("child: %d\n", pid1);
-	ft_printf("HI\n");*/
+	ft_pipex(&pipex, env);
 	return (0);
 }

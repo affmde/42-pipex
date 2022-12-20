@@ -8,7 +8,7 @@ ft_strnstr.c ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c ft_strrchr.c ft_
 ft_power_of.c get_next_line.c ft_isspace.c ft_abs.c ft_min.c ft_max.c
 LOBJECTS = $(LSRCS:.c=.o)
 LODEST = $(addprefix ./libft/, $(LOBJECTS))
-SRCS = handle_errors.c
+SRCS = handle_errors.c pipex.c processes.c
 SRCSDEST = $(addprefix ./srcs/, $(SRCS))
 all: $(NAME)
 
