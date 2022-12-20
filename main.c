@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 19:20:35 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/20 11:47:27 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/20 12:39:13 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	main(int argc, char **argv, char **env)
 		error("Failed to open the outfile.");
 		return (0);
 	}
+	pipex.cmd1 = argv[2];
+	pipex.cmd2 = argv[3];
 	ft_pipex(&pipex, env);
 	return (0);
 }

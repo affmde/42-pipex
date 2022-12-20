@@ -8,11 +8,12 @@ ft_strnstr.c ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c ft_strrchr.c ft_
 ft_power_of.c get_next_line.c ft_isspace.c ft_abs.c ft_min.c ft_max.c
 LOBJECTS = $(LSRCS:.c=.o)
 LODEST = $(addprefix ./libft/, $(LOBJECTS))
-SRCS = handle_errors.c pipex.c processes.c
+SRCS = handle_errors.c pipex.c processes.c parse_env.c
 SRCSDEST = $(addprefix ./srcs/, $(SRCS))
 all: $(NAME)
 
-$(NAME): $(LIBFT) main.c
+$(NAME): $(SRCSDEST) main.c
+	make -C libft
 	cc $(FLAGS) -o $(NAME) main.c $(SRCSDEST) -L. ./libft/$(LIBFT)
 
 clean:
