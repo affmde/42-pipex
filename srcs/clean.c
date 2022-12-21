@@ -1,33 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 10:00:05 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/21 12:15:39 by andrferr         ###   ########.fr       */
+/*   Created: 2022/12/21 11:00:01 by andrferr          #+#    #+#             */
+/*   Updated: 2022/12/21 12:33:03 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-int	ft_pipex(t_pipex *pipex, char **env)
+void	free_double_arr(char **arr)
 {
-	if (pipe(pipex->fd) < 0)
+	int	i;
+
+	i = 0;
+	while (arr[i])
 	{
-		error("Pipe failed");
-		return (0);
+		free(arr[i]);
+		i++;
 	}
-	pipex->pid = fork();
-	if (pipex->pid < 0)
+	free(arr);
+}
+
+void	clean_pipex(t_pipex *pipex)
+{
+	if (pipex)
 	{
-		error("Fork failed");
-		return (0);
+		if (pipex->args)
+			free_double_arr(pipex->args);
+		if (pipex->possible_paths)
+			free_double_arr(pipex->possible_paths);
+		if (pipex->path)
+			free(pipex->path);
+		//free(pipex);
 	}
-	else if (!pipex->pid)
-		handle_child(pipex, env);
-	else if (pipex->pid > 0)
-		handle_parent(pipex, env);
-	return (1);
 }

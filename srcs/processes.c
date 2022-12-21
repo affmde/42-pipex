@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:21:51 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/20 14:59:30 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/21 12:29:08 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@ int	handle_child(t_pipex *pipex, char **env)
 	cmd = get_command(pipex->possible_paths, pipex->args[0]);
 	if (!cmd)
 	{
+		error(pipex->cmd1);
+		clean_pipex(pipex);
 		close(pipex->fd[1]);
-		return (0);
+		exit(1);
 	}
+	close(pipex->fd[1]);
 	execve(cmd, pipex->args, env);
-	close(pipex->fd[0]);
 	return (1);
 }
 
@@ -60,8 +62,11 @@ int	handle_parent(t_pipex *pipex, char **env)
 	cmd = get_command(pipex->possible_paths, pipex->args[0]);
 	if (!cmd)
 	{
-		return (0);
+		error(pipex->cmd2);
+		clean_pipex(pipex);
+		exit(1);
 	}
-	close(pipex->fd[1]);
+	close(pipex->fd[0]);
+	execve(cmd, pipex->args, env);
 	return (1);
 }
