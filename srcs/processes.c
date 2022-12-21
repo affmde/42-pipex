@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:21:51 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/21 12:34:24 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/21 17:46:40 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,42 +31,39 @@ static char	*get_command(char **paths, char *cmd)
 
 int	handle_child(t_pipex *pipex, char **env)
 {
-	char	*cmd;
-
 	dup2(pipex->infile, STDIN_FILENO);
 	close(pipex->fd[0]);
 	dup2(pipex->fd[1], STDOUT_FILENO);
-	parse_env(pipex, env, 1);
-	cmd = get_command(pipex->possible_paths, pipex->args[0]);
-	if (!cmd)
+	pipex->args = ft_split(pipex->cmd1, ' ');
+	pipex->path_cmd = get_command(pipex->possible_paths, pipex->args[0]);
+	if (!pipex->path_cmd)
 	{
-		error(pipex->cmd1);
+		error_msg(pipex->cmd1);
 		clean_pipex(pipex);
-		close(pipex->fd[1]);
-		exit(1);
+		exit (0);
 	}
 	close(pipex->fd[1]);
-	execve(cmd, pipex->args, env);
+	if (execve(pipex->path_cmd, pipex->args, env) < 0)
+		return (0);
 	return (1);
 }
 
 int	handle_parent(t_pipex *pipex, char **env)
 {
-	char	*cmd;
-
 	waitpid(pipex->pid, NULL, 0);
 	dup2(pipex->fd[0], STDIN_FILENO);
 	close(pipex->fd[1]);
 	dup2(pipex->outfile, STDOUT_FILENO);
-	parse_env(pipex, env, 2);
-	cmd = get_command(pipex->possible_paths, pipex->args[0]);
-	if (!cmd)
+	pipex->args = ft_split(pipex->cmd2, ' ');
+	pipex->path_cmd = get_command(pipex->possible_paths, pipex->args[0]);
+	if (!pipex->path_cmd)
 	{
-		error(pipex->cmd2);
 		clean_pipex(pipex);
-		exit(1);
+		error_msg(pipex->cmd2);
+		exit (0);
 	}
 	close(pipex->fd[0]);
-	execve(cmd, pipex->args, env);
+	if (execve(pipex->path_cmd, pipex->args, env) < 0)
+		return (0);
 	return (1);
 }

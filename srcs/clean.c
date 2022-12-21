@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 11:00:01 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/21 12:35:42 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/21 16:08:43 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ void	clean_pipex(t_pipex *pipex)
 			free_double_arr(pipex->possible_paths);
 		if (pipex->path)
 			free(pipex->path);
+		if (pipex->path_cmd)
+			free(pipex->path_cmd);
 	}
 }

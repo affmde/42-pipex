@@ -6,20 +6,21 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 18:01:54 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/21 12:22:23 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/21 17:48:59 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	error(char *cmd)
+int	error(char *cmd)
 {
-	ft_putstr_fd("command not found: ", 2);
-	ft_putendl_fd(cmd, 2);
+	perror(cmd);
+	exit (1);
 }
 
-void	error_exit(char *msg)
+int	error_msg(char *msg)
 {
-	perror(msg);
-	exit(EXIT_FAILURE);
+	ft_putstr_fd("command not found: ", 2);
+	ft_putendl_fd(msg, 2);
+	return (1);
 }
