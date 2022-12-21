@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:21:51 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/21 12:29:08 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/21 12:34:24 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*get_command(char **paths, char *cmd)
 {
-	char *tmp;
+	char	*tmp;
 
 	while (*paths)
 	{
@@ -31,7 +31,7 @@ static char	*get_command(char **paths, char *cmd)
 
 int	handle_child(t_pipex *pipex, char **env)
 {
-	char *cmd;
+	char	*cmd;
 
 	dup2(pipex->infile, STDIN_FILENO);
 	close(pipex->fd[0]);
@@ -52,7 +52,7 @@ int	handle_child(t_pipex *pipex, char **env)
 
 int	handle_parent(t_pipex *pipex, char **env)
 {
-	char *cmd;
+	char	*cmd;
 
 	waitpid(pipex->pid, NULL, 0);
 	dup2(pipex->fd[0], STDIN_FILENO);
