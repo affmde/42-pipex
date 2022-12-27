@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:19:30 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/21 13:42:59 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/27 21:32:26 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,28 @@ static void	update_paths(t_pipex *pipex)
 {
 	int	i;
 
-	i = -1;
-	while (pipex->possible_paths[++i])
-		pipex->possible_paths[i] = add_slash(pipex->possible_paths[i]);
+	i = 0;
+	if (pipex->possible_paths[i])
+	{
+		while (pipex->possible_paths[i])
+		{
+			pipex->possible_paths[i] = add_slash(pipex->possible_paths[i]);
+			i++;
+		}
+	}
+	
 }
 
-void	parse_env(t_pipex *pipex, char **env)
+int	parse_env(t_pipex *pipex, char **env)
 {
 	pipex->path = find_path(env);
+	if (!pipex->path)
+	{
+		close(pipex->infile);
+		close(pipex->outfile);
+		return (0);
+	}
 	pipex->possible_paths = ft_split(pipex->path, ':');
 	update_paths(pipex);
+	return (1);
 }

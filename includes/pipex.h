@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 19:43:46 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/27 21:06:50 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/27 21:28:24 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		error_msg(char *msg);
 int		ft_pipex(t_pipex *pipex, char **env);
 int		process_one(t_pipex *pipex, char **env);
 int		process_two(t_pipex *pipex, char **env);
-void	parse_env(t_pipex *pipex, char **env);
+int		parse_env(t_pipex *pipex, char **env);
 void	free_double_arr(char **arr);
 void	clean_pipex(t_pipex *pipex);
 
