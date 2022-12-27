@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 10:00:05 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/22 10:04:06 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/27 21:12:12 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,23 @@
 int	ft_pipex(t_pipex *pipex, char **env)
 {
 	if (pipe(pipex->fd) < 0)
-		error("Pipe failed");
+		error("Pipe failed", EXIT_FAILURE);
 	pipex->pid = fork();
 	if (pipex->pid < 0)
-		error("Fork failed");
+		error("Fork failed", EXIT_FAILURE);
 	else if (!pipex->pid)
-	{
-		if (!handle_child(pipex, env))
+		if (!process_one(pipex, env))
 			return (0);
-	}
-	else if (pipex->pid > 0)
-		if (!handle_parent(pipex, env))
+	pipex->pid2 = fork();
+	if (pipex->pid2 < 0)
+		error("Fork failed", EXIT_FAILURE);
+	else if (!pipex->pid2)
+		if (!process_two(pipex, env))
 			return (0);
 	close(pipex->fd[0]);
 	close(pipex->fd[1]);
+	waitpid(pipex->pid, NULL, 0);
+	waitpid(pipex->pid2, NULL, 0);
 	close(pipex->infile);
 	close(pipex->outfile);
 	clean_pipex(pipex);

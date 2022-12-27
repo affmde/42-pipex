@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:21:51 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/22 10:24:22 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/27 21:11:00 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,40 +29,45 @@ static char	*get_command(char **paths, char *cmd)
 	return (NULL);
 }
 
-int	handle_child(t_pipex *pipex, char **env)
+int	process_one(t_pipex *pipex, char **env)
 {
-	dup2(pipex->fd[1], STDOUT_FILENO);
 	close(pipex->fd[0]);
-	dup2(pipex->infile, STDIN_FILENO);
+	if (dup2(pipex->fd[1], STDOUT_FILENO) < 0)
+		return (0);
+	if (dup2(pipex->infile, STDIN_FILENO) < 0)
+		return (0);
 	pipex->args = ft_split(pipex->cmd1, ' ');
+	if (!pipex->args)
+		return (0);
 	pipex->path_cmd = get_command(pipex->possible_paths, pipex->args[0]);
 	if (!pipex->path_cmd)
 	{
 		error_msg(pipex->cmd1);
 		clean_pipex(pipex);
-		exit (127);
+		exit (EXIT_FAILURE);
 	}
 	close(pipex->fd[1]);
 	if (execve(pipex->path_cmd, pipex->args, env) < 0)
-		return (0);
-	return (1);
+		return (EXIT_FAILURE);
+	return (EXIT_FAILURE);
 }
 
-int	handle_parent(t_pipex *pipex, char **env)
+int	process_two(t_pipex *pipex, char **env)
 {
-	int	status;
-	
-	waitpid(pipex->pid, &status, 0);
-	dup2(pipex->fd[0], STDIN_FILENO);
 	close(pipex->fd[1]);
-	dup2(pipex->outfile, STDOUT_FILENO);
+	if (dup2(pipex->fd[0], STDIN_FILENO) < 0)
+		return (0);
+	if (dup2(pipex->outfile, STDOUT_FILENO) < 0)
+		return (0);
 	pipex->args = ft_split(pipex->cmd2, ' ');
+	if (!pipex->args)
+		return (0);
 	pipex->path_cmd = get_command(pipex->possible_paths, pipex->args[0]);
 	if (!pipex->path_cmd)
 	{
 		clean_pipex(pipex);
 		error_msg(pipex->cmd2);
-		exit (127);
+		exit (EXIT_FAILURE);
 	}
 	close(pipex->fd[0]);
 	if (execve(pipex->path_cmd, pipex->args, env) < 0)
@@ -70,5 +75,5 @@ int	handle_parent(t_pipex *pipex, char **env)
 		clean_pipex(pipex);
 		return (0);
 	}
-	return (1);
+	return (EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 12:07:57 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/19 11:57:24 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/27 20:46:23 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@ static int	ft_letters_count(char *s, char del)
 	return (count);
 }
 
+static void	del_str(char **str)
+{
+	while (*str)
+	{
+		ft_strdel(str);
+		str++;
+	}
+}
+
 static int	ft_fill_arr(char **arr, int nbr_words, const char *s, char c)
 {
 	int	i;
@@ -52,7 +61,11 @@ static int	ft_fill_arr(char **arr, int nbr_words, const char *s, char c)
 		arr[i] = (char *)malloc(sizeof(char)
 				* ft_letters_count((char *)s, c) + 1);
 		if (!arr[i])
+		{
+			del_str(arr);
+			ft_strdel((char **)&arr);
 			return (0);
+		}
 		j = 0;
 		while (*s != c && *s)
 			arr[i][j++] = *s++;
@@ -68,7 +81,7 @@ char	**ft_split(char const *s, char c)
 {
 	char	**arr;
 	int		nbr_words;
-
+	
 	if (!s)
 		return (0);
 	nbr_words = ft_count_words((char *)s, c);

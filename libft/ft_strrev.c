@@ -1,42 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean.c                                            :+:      :+:    :+:   */
+/*   ft_strrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/21 11:00:01 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/27 20:51:13 by andrferr         ###   ########.fr       */
+/*   Created: 2022/12/22 16:02:09 by andrferr          #+#    #+#             */
+/*   Updated: 2022/12/22 16:08:35 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "libft.h"
 
-void	free_double_arr(char **arr)
+static void swap(char *a, char *b)
 {
+	char	tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+char	*ft_strrev(char *str)
+{
+	int	med;
+	int	len;
 	int	i;
 
 	i = 0;
-	while (arr[i])
+	len = ft_strlen(str);
+	med = len / 2;
+	while (i < med)
 	{
-		free(arr[i]);
+		swap(&str[i], &str[len - 1 - i]);
 		i++;
 	}
-	free(arr);
-}
-
-void	clean_pipex(t_pipex *pipex)
-{
-	if (pipex)
-	{
-		if (pipex->args)
-			free_double_arr(pipex->args);
-		if (pipex->possible_paths)
-			free_double_arr(pipex->possible_paths);
-		if (pipex->path)
-			free(pipex->path);
-		if (pipex->path_cmd)
-			free(pipex->path_cmd);
-		free(pipex);
-	}
+	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 19:43:46 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/21 16:07:14 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/27 21:06:50 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_pipex
 	int		infile;
 	int		outfile;
 	int		pid;
+	int		pid2;
 	char	*cmd1;
 	char	*cmd2;
 	char	*path;
@@ -34,11 +35,11 @@ typedef struct s_pipex
 	char	*path_cmd;
 }		t_pipex;
 
-int		error(char *cmd);
+int		error(char *cmd, int error_code);
 int		error_msg(char *msg);
 int		ft_pipex(t_pipex *pipex, char **env);
-int		handle_child(t_pipex *pipex, char **env);
-int		handle_parent(t_pipex *pipex, char **env);
+int		process_one(t_pipex *pipex, char **env);
+int		process_two(t_pipex *pipex, char **env);
 void	parse_env(t_pipex *pipex, char **env);
 void	free_double_arr(char **arr);
 void	clean_pipex(t_pipex *pipex);

@@ -1,42 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean.c                                            :+:      :+:    :+:   */
+/*   ft_isprime.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/21 11:00:01 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/27 20:51:13 by andrferr         ###   ########.fr       */
+/*   Created: 2022/12/22 16:15:38 by andrferr          #+#    #+#             */
+/*   Updated: 2022/12/22 16:19:10 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
-
-void	free_double_arr(char **arr)
+int	ft_isprime(int num)
 {
 	int	i;
+	int	prime;
 
-	i = 0;
-	while (arr[i])
+	prime = 1;
+	i = 2;
+	while (i < num)
 	{
-		free(arr[i]);
+		if (num % i == 0)
+		{
+			prime = 0;
+			break ;
+		}
 		i++;
 	}
-	free(arr);
-}
-
-void	clean_pipex(t_pipex *pipex)
-{
-	if (pipex)
-	{
-		if (pipex->args)
-			free_double_arr(pipex->args);
-		if (pipex->possible_paths)
-			free_double_arr(pipex->possible_paths);
-		if (pipex->path)
-			free(pipex->path);
-		if (pipex->path_cmd)
-			free(pipex->path_cmd);
-		free(pipex);
-	}
+	if (prime)
+		return (1);
+	return (0);
 }

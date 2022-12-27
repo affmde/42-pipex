@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_errors.c                                    :+:      :+:    :+:   */
+/*   ft_strdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/19 18:01:54 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/27 21:06:35 by andrferr         ###   ########.fr       */
+/*   Created: 2022/12/27 19:45:50 by andrferr          #+#    #+#             */
+/*   Updated: 2022/12/27 19:46:41 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "libft.h"
 
-int	error(char *cmd, int error_code)
+void	ft_strdel(char **str)
 {
-	perror(cmd);
-	exit (error_code);
-}
-
-int	error_msg(char *msg)
-{
-	ft_putstr_fd("command not found: ", 2);
-	ft_putendl_fd(msg, 2);
-	return (EXIT_FAILURE);
+	if (str)
+	{
+		free(*str);
+		*str = NULL;
+	}
 }

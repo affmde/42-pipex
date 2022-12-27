@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 14:37:13 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/16 12:38:10 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/27 19:47:29 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,8 @@ int		ft_abs(int num);
 int		ft_power_of(int num, int power);
 int		ft_max(int a, int b);
 int		ft_min(int a, int b);
+char	*ft_strrev(char *str);
+int		ft_isprime(int num);
+void	ft_strdel(char **str);
+void	ft_memdel(void **ptr);
 #endif
