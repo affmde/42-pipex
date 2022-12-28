@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 12:19:30 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/27 21:32:26 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/28 11:28:10 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	update_paths(t_pipex *pipex)
 			i++;
 		}
 	}
-	
 }
 
 int	parse_env(t_pipex *pipex, char **env)

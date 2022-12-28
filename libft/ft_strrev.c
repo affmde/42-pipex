@@ -6,13 +6,13 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:02:09 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/22 16:08:35 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/28 11:29:06 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void swap(char *a, char *b)
+static void	swap(char *a, char *b)
 {
 	char	tmp;
 
