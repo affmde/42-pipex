@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 19:43:46 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/28 11:53:33 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/28 14:48:38 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef struct s_pipex
 }		t_pipex;
 
 int		error(char *cmd, int error_code);
-int		error_msg(char *msg);
+int		error_msg(char *msg, int show_mess);
+void	choose_error(t_pipex *pipex, int process);
 int		ft_pipex(t_pipex *pipex, char **env);
 int		process_one(t_pipex *pipex, char **env);
 int		process_two(t_pipex *pipex, char **env);

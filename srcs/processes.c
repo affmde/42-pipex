@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:21:51 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/27 21:17:24 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/28 14:50:49 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,13 @@ int	process_one(t_pipex *pipex, char **env)
 	pipex->args = ft_split(pipex->cmd1, ' ');
 	if (!pipex->args)
 		return (0);
-	pipex->path_cmd = get_command(pipex->possible_paths, pipex->args[0]);
+	if (access(pipex->args[0], 0) == 0)
+		pipex->path_cmd = pipex->args[0];
+	else
+		pipex->path_cmd = get_command(pipex->possible_paths, pipex->args[0]);
 	if (!pipex->path_cmd)
 	{
-		error_msg(pipex->cmd1);
+		choose_error(pipex, 1);
 		clean_pipex(pipex);
 		exit (EXIT_FAILURE);
 	}
@@ -62,11 +65,14 @@ int	process_two(t_pipex *pipex, char **env)
 	pipex->args = ft_split(pipex->cmd2, ' ');
 	if (!pipex->args)
 		return (0);
-	pipex->path_cmd = get_command(pipex->possible_paths, pipex->args[0]);
+	if (access(pipex->args[0], 0) == 0)
+		pipex->path_cmd = pipex->args[0];
+	else
+		pipex->path_cmd = get_command(pipex->possible_paths, pipex->args[0]);
 	if (!pipex->path_cmd)
 	{
+		choose_error(pipex, 2);
 		clean_pipex(pipex);
-		error_msg(pipex->cmd2);
 		exit (EXIT_FAILURE);
 	}
 	close(pipex->fd[0]);
