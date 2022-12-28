@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 19:43:46 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/27 21:28:24 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/28 11:53:33 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 # define PIPEX_H
 
 # include "../libft/libft.h"
-# include <sys/types.h>
 # include <sys/wait.h>
 # include <stdio.h>
 # include <fcntl.h>
-# include <errno.h>
 
 typedef struct s_pipex
 {
