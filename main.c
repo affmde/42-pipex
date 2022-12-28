@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 19:20:35 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/28 11:30:17 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/28 11:49:31 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int argc, char **argv, char **env)
 		call_error(pipex, argv[1], 0);
 	pipex->outfile = open(argv[argc - 1], O_WRONLY | O_TRUNC | O_CREAT, 00644);
 	if (pipex->outfile < 0)
-		call_error(pipex, argv[4], 1);
+		call_error(pipex, argv[argc - 1], 1);
 	pipex->cmd1 = argv[2];
 	pipex->cmd2 = argv[3];
 	if (!parse_env(pipex, env))
