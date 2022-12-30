@@ -6,7 +6,7 @@
 /*   By: andrferr <andrferr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:21:51 by andrferr          #+#    #+#             */
-/*   Updated: 2022/12/28 14:50:49 by andrferr         ###   ########.fr       */
+/*   Updated: 2022/12/30 16:21:17 by andrferr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,18 @@ static char	*get_command(char **paths, char *cmd)
 	return (NULL);
 }
 
-int	process_one(t_pipex *pipex, char **env)
+static void	handle_no_cmd(t_pipex *pipex, int error_code)
 {
+	choose_error(pipex, error_code);
+	clean_pipex(pipex);
+	exit (EXIT_FAILURE);
+}
+
+int	process_one(t_pipex *pipex, char **argv, char **env)
+{
+	pipex->infile = open(argv[1], O_RDONLY);
+	if (pipex->infile < 0)
+		error(argv[1], 0);
 	close(pipex->fd[0]);
 	if (dup2(pipex->fd[1], STDOUT_FILENO) < 0)
 		return (0);
@@ -44,19 +54,19 @@ int	process_one(t_pipex *pipex, char **env)
 	else
 		pipex->path_cmd = get_command(pipex->possible_paths, pipex->args[0]);
 	if (!pipex->path_cmd)
-	{
-		choose_error(pipex, 1);
-		clean_pipex(pipex);
-		exit (EXIT_FAILURE);
-	}
+		handle_no_cmd(pipex, 1);
 	close(pipex->fd[1]);
+	close(pipex->infile);
 	if (execve(pipex->path_cmd, pipex->args, env) < 0)
 		return (EXIT_FAILURE);
 	return (EXIT_FAILURE);
 }
 
-int	process_two(t_pipex *pipex, char **env)
+int	process_two(t_pipex *pipex, char **argv, char **env)
 {
+	pipex->outfile = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, 00644);
+	if (!pipex->outfile)
+		error(argv[4], 1);
 	close(pipex->fd[1]);
 	if (dup2(pipex->fd[0], STDIN_FILENO) < 0)
 		return (0);
@@ -70,12 +80,9 @@ int	process_two(t_pipex *pipex, char **env)
 	else
 		pipex->path_cmd = get_command(pipex->possible_paths, pipex->args[0]);
 	if (!pipex->path_cmd)
-	{
-		choose_error(pipex, 2);
-		clean_pipex(pipex);
-		exit (EXIT_FAILURE);
-	}
+		handle_no_cmd(pipex, 2);
 	close(pipex->fd[0]);
+	close(pipex->outfile);
 	if (execve(pipex->path_cmd, pipex->args, env) < 0)
 	{
 		clean_pipex(pipex);
